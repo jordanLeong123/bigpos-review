@@ -2,49 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Opening Google Maps...</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 40px;
-    }
-    button {
-      margin: 10px;
-      padding: 12px 20px;
-      font-size: 16px;
-      border: none;
-      background-color: #4285f4;
-      color: white;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #3367d6;
-    }
-  </style>
-</head>
-<body>
-  <h2>正在打开 Google Maps…</h2>
-  <p>如果没有自动跳转，请点下面其中一个按钮</p>
-
-  <button onclick="openMapsApp()">用 Google Maps 打开</button>
-  <button onclick="openBrowser()">用浏览器打开</button>
-
+  <title>Redirecting to Google Maps...</title>
   <script>
     const placeId = "ChIJsV8FaBDtyjERskHxApQZQ7c";
     const queryName = "BIG+POS+Ipoh";
     const ua = navigator.userAgent.toLowerCase();
 
-    // 推荐跳 App 的链接
-    const mapsAppLink = `geo:0,0?q=${queryName}`;
-    // 推荐浏览器兼容的链接
-    const browserLink = `https://www.google.com/maps/search/?api=1&query=${queryName}&query_place_id=${placeId}`;
-
-    function openMapsApp() {
-      window.location.href = mapsAppLink;
+    function redirect() {
+      if (ua.includes("android")) {
+        // ✅ Android：使用 geo 协议 + 名称
+        window.location.href = geo:0,0?q=${queryName};
+      } else if (ua.includes("iphone") || ua.includes("ipad")) {
+        // ✅ iOS：使用 Maps universal link
+        window.location.href = https://www.google.com/maps/search/?api=1&query=${queryName}&query_place_id=${placeId};
+      } else {
+        // fallback: 桌面或其他设备
+        window.location.href = https://www.google.com/maps/place/?q=place_id:${placeId};
+      }
     }
 
-    function openBrowser() {
-      window.location.href
+    window.onload = redirect;
+  </script>
+</head>
+</html>
