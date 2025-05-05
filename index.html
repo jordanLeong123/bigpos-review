@@ -9,17 +9,21 @@
     const ua = navigator.userAgent.toLowerCase();
 
     function redirect() {
-      if (ua.includes("android")) {
-        // Android 强制跳 App
+    if (ua.includes("android")) {
+        // 检查是否安装了 Google Maps
         window.location.href = `intent://maps.google.com/?q=place_id:${placeId}#Intent;package=com.google.android.apps.maps;scheme=https;end;`;
-      } else if (ua.includes("iphone") || ua.includes("ipad")) {
+        setTimeout(function() {
+            // 如果 Google Maps 没有打开，跳转到网页
+            window.location.href = `https://www.google.com/maps/search/?q=place_id:${placeId}`;
+        }, 500);
+    } else if (ua.includes("iphone") || ua.includes("ipad")) {
         // iOS Universal link
         window.location.href = `https://www.google.com/maps/search/?api=1&query=${queryName}&query_place_id=${placeId}`;
-      } else {
+    } else {
         // fallback
         window.location.href = `https://www.google.com/maps/place/?q=place_id:${placeId}`;
-      }
     }
+}
 
     window.onload = redirect;
   </script>
