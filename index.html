@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Redirecting to Google Maps...</title>
+  <script>
+    const placeId = "ChIJsV8FaBDtyjERskHxApQZQ7c";
+    const queryName = "BIG+POS+Ipoh";
+    const ua = navigator.userAgent.toLowerCase();
+
+    function redirect() {
+      if (ua.includes("android")) {
+        // ✅ Android：使用 geo 协议 + 名称
+        window.location.href = `geo:0,0?q=${queryName}`;
+      } else if (ua.includes("iphone") || ua.includes("ipad")) {
+        // ✅ iOS：使用 Maps universal link
+        window.location.href = `https://www.google.com/maps/search/?api=1&query=${queryName}&query_place_id=${placeId}`;
+      } else {
+        // fallback: 桌面或其他设备
+        window.location.href = `https://www.google.com/maps/place/?q=place_id:${placeId}`;
+      }
+    }
+
+    window.onload = redirect;
+  </script>
+</head>
+<body>
+  <p>Redirecting to Google Maps...</p>
+</body>
+</html>
