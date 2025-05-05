@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Redirecting to Google Maps...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script>
     const placeId = "ChIJsV8FaBDtyjERskHxApQZQ7c";
     const queryName = "BIG+POS+Ipoh";
@@ -10,14 +11,20 @@
 
     function redirect() {
       if (ua.includes("android")) {
-        // ✅ Android：使用 geo 协议 + 名称
-        window.location.href = `geo:0,0?q=${queryName}`;
+        // ✅ Android：尝试打开 Google Maps App
+        const intentLink = `intent://maps.google.com/maps?api=1&query=${queryName}&query_place_id=${placeId}#Intent;package=com.google.android.apps.maps;scheme=https;end;`;
+        window.location.href = intentLink;
+
+        // ⏱ fallback：3 秒后如果未跳转，则打开网页版
+        setTimeout(() => {
+          window.location.href = `https://www.google.com/maps/search/?api=1&query=${queryName}&query_place_id=${placeId}`;
+        }, 3000);
       } else if (ua.includes("iphone") || ua.includes("ipad")) {
-        // ✅ iOS：使用 Maps universal link
+        // ✅ iOS：Universal Link，系统自动决定跳 App 或网页
         window.location.href = `https://www.google.com/maps/search/?api=1&query=${queryName}&query_place_id=${placeId}`;
       } else {
-        // fallback: 桌面或其他设备
-        window.location.href = `https://www.google.com/maps/place/?q=place_id:${placeId}`;
+        // fallback：桌面浏览器等
+        window.location.href = `https://www.google.com/maps/search/?api=1&query=${queryName}&query_place_id=${placeId}`;
       }
     }
 
