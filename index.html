@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Redirecting to Google Maps...</title>
+  <script>
+    const placeId = "ChIJsV8FaBDtyjERskHxApQZQ7c"; // BIG POS Ipoh
+    const queryName = "BIG+POS+Ipoh";
+    const ua = navigator.userAgent.toLowerCase();
+
+    function redirect() {
+      if (ua.includes("android")) {
+        // Android 强制跳 App
+        window.location.href = `intent://maps.google.com/?q=place_id:${placeId}#Intent;package=com.google.android.apps.maps;scheme=https;end;`;
+      } else if (ua.includes("iphone") || ua.includes("ipad")) {
+        // iOS Universal link
+        window.location.href = `https://www.google.com/maps/search/?api=1&query=${queryName}&query_place_id=${placeId}`;
+      } else {
+        // fallback
+        window.location.href = `https://www.google.com/maps/place/?q=place_id:${placeId}`;
+      }
+    }
+
+    window.onload = redirect;
+  </script>
+</head>
+<body>
+  <h2>正在跳转 Google Maps...</h2>
+  <p>如果没有自动跳转，请点击：<br>
+    <a href="https://www.google.com/maps/search/?api=1&query=BIG+POS+Ipoh&query_place_id=ChIJsV8FaBDtyjERskHxApQZQ7c">点此手动跳转</a>
+  </p>
+</body>
+</html>
