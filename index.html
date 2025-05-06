@@ -2,40 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Redirecting to Google Maps...</title>
+  <title>Redirecting...</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script>
     const placeId = "ChIJsV8FaBDtyjERskHxApQZQ7c";
     const queryName = "BIG+POS+Ipoh";
     const ua = navigator.userAgent.toLowerCase();
 
-    const fallbackUrl = `https://www.google.com/maps/search/?api=1&query=${queryName}&query_place_id=${placeId}`;
-    const reviewUrl = `https://search.google.com/local/writereview?placeid=${placeId}`;
+    const fallbackPage = `https://jordanleong123.github.io/bigpos-review/fallback.html`;
 
     function redirect() {
       if (ua.includes("android")) {
-        const intentUrl = `intent://maps.google.com/maps?api=1&query=${queryName}&query_place_id=${placeId}#Intent;scheme=https;package=com.google.android.apps.maps;S.browser_fallback_url=${encodeURIComponent(fallbackUrl)};end;`;
+        const intentUrl = `intent://maps.google.com/maps?api=1&query=${queryName}&query_place_id=${placeId}#Intent;scheme=https;package=com.google.android.apps.maps;S.browser_fallback_url=${encodeURIComponent(fallbackPage)};end;`;
         window.location.href = intentUrl;
-
-        // ✅ 仅当 fallback 被使用（即网页打开），setTimeout 才有机会运行
-        setTimeout(() => {
-          window.location.href = reviewUrl;
-        }, 5000);
-
       } else if (ua.includes("iphone") || ua.includes("ipad")) {
-        // iOS 只能跳 universal link
-        window.location.href = fallbackUrl;
-
-        setTimeout(() => {
-          window.location.href = reviewUrl;
-        }, 5000);
+        // iOS：直接去 fallback 页面
+        window.location.href = fallbackPage;
       } else {
-        // 桌面或其他平台
-        window.location.href = fallbackUrl;
-
-        setTimeout(() => {
-          window.location.href = reviewUrl;
-        }, 5000);
+        // 桌面也跳 fallback 页面
+        window.location.href = fallbackPage;
       }
     }
 
