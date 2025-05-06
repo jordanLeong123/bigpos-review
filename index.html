@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <title>Opening Google Maps...</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body>
+  <p>正在为您打开 Google 地图...<br/>几秒后将跳转去写评论。</p>
+
   <script>
     const placeId = "ChIJsV8FaBDtyjERskHxApQZQ7c";
     const queryName = "BIG+POS+Ipoh";
@@ -11,14 +15,22 @@
     const reviewUrl = `https://search.google.com/local/writereview?placeid=${placeId}`;
 
     window.onload = () => {
-      // 打开地图在新分页
-      window.open(mapUrl, "_blank");
+      const mapWin = window.open(mapUrl, "_blank");
 
-      // 当前页等 5 秒后跳去评论页面
+      // fallback: 如果地图被拦截，就提醒用户手动点开
+      if (!mapWin) {
+        const link = document.createElement("a");
+        link.href = mapUrl;
+        link.innerText = "点击这里打开地图";
+        link.target = "_blank";
+        document.body.appendChild(link);
+      }
+
+      // 当前页 5 秒后跳转去写评论
       setTimeout(() => {
         window.location.href = reviewUrl;
       }, 5000);
     };
   </script>
-</head>
+</body>
 </html>
