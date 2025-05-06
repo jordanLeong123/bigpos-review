@@ -7,17 +7,16 @@
   <script>
     const placeId = "ChIJsV8FaBDtyjERskHxApQZQ7c";
     const queryName = "BIG+POS+Ipoh";
-
     const mapUrl = `https://www.google.com/maps/search/?api=1&query=${queryName}&query_place_id=${placeId}`;
-    const reviewPage = "review.html";
+    const reviewUrl = `https://search.google.com/local/writereview?placeid=${placeId}`;
 
     window.onload = () => {
-      // 用新窗口打开 Google 地图
+      // 打开地图在新分页
       window.open(mapUrl, "_blank");
 
-      // 当前页面5秒后跳转评论页
+      // 当前页等 5 秒后跳去评论页面
       setTimeout(() => {
-        window.location.href = reviewPage;
+        window.location.href = reviewUrl;
       }, 5000);
     };
   </script>
