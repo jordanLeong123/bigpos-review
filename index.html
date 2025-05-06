@@ -10,13 +10,14 @@
     const ua = navigator.userAgent.toLowerCase();
 
     const mapUrl = `https://www.google.com/maps/search/?api=1&query=${queryName}&query_place_id=${placeId}`;
+    const reviewUrl = `https://search.google.com/local/writereview?placeid=${placeId}`;
 
     function redirect() {
       if (ua.includes("android")) {
         const intentUrl = `intent://maps.google.com/maps?api=1&query=${queryName}&query_place_id=${placeId}#Intent;scheme=https;package=com.google.android.apps.maps;S.browser_fallback_url=${encodeURIComponent(mapUrl)};end;`;
         window.location.href = intentUrl;
       } else {
-        // 非 Android 直接打开网页地图
+        // 直接打开网页地图
         window.location.href = mapUrl;
       }
     }
@@ -24,11 +25,15 @@
     window.onload = () => {
       redirect();
 
-      // 5 秒后跳转到 review.html（用于跳去评论）
+      // 5 秒后打开评论页面
       setTimeout(() => {
-        window.location.href = "review.html";
+        // 使用 window.open 来在新标签页打开评论页面
+        window.open(reviewUrl, '_blank');
       }, 5000);
     };
   </script>
 </head>
+<body>
+  <p>Redirecting to Google Maps...<br />You will be redirected to the review page shortly.</p>
+</body>
 </html>
