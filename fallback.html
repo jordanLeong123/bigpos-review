@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Opening Google Maps...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script>
+    const placeId = "ChIJsV8FaBDtyjERskHxApQZQ7c";
+    const queryName = "BIG+POS+Ipoh";
+    const mapUrl = `https://www.google.com/maps/search/?api=1&query=${queryName}&query_place_id=${placeId}`;
+    const reviewUrl = `https://search.google.com/local/writereview?placeid=${placeId}`;
+
+    function go() {
+      // 第一步：跳地图
+      window.location.href = mapUrl;
+
+      // 第二步：5 秒后跳写评论
+      setTimeout(() => {
+        window.location.href = reviewUrl;
+      }, 5000);
+    }
+
+    window.onload = go;
+  </script>
+</head>
+</html>
