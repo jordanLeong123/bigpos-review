@@ -2,30 +2,29 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Redirecting to Google Maps...</title>
+  <title>Redirecting to Google Review...</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script>
-    const placeId = "ChIJsV8FaBDtyjERskHxApQZQ7c";
-    const queryName = "BIG+POS+Ipoh";
+    const placeId = "ChIJsV8FaBDtyjERskHxApQZQ7c"; // BIG POS IPOH
+    const reviewUrl = `https://search.google.com/local/writereview?placeid=${placeId}`;
     const ua = navigator.userAgent.toLowerCase();
 
     function redirect() {
-      const fallbackUrl = `https://www.google.com/maps/search/?api=1&query=${queryName}&query_place_id=${placeId}`;
-
       if (ua.includes("android")) {
-        // ✅ Android - 尝试打开 Google Maps App（无弹窗）
-        const intentUrl = `intent://maps.google.com/maps?api=1&query=${queryName}&query_place_id=${placeId}#Intent;scheme=https;package=com.google.android.apps.maps;S.browser_fallback_url=${encodeURIComponent(fallbackUrl)};end;`;
+        // Android：尝试打开 Google Maps App（但不能直接跳评论）
+        const intentUrl = `intent://maps.google.com/?q=place_id:${placeId}#Intent;scheme=https;package=com.google.android.apps.maps;S.browser_fallback_url=${encodeURIComponent(reviewUrl)};end;`;
         window.location.href = intentUrl;
       } else if (ua.includes("iphone") || ua.includes("ipad")) {
-        // ✅ iOS - 系统自动判断跳 App 或网页
-        window.location.href = fallbackUrl;
+        // iOS：直接跳浏览器写评论
+        window.location.href = reviewUrl;
       } else {
-        // ✅ 其他平台直接跳网页
-        window.location.href = fallbackUrl;
+        // 其他设备（桌面）
+        window.location.href = reviewUrl;
       }
     }
 
     window.onload = redirect;
   </script>
 </head>
+
 </html>
