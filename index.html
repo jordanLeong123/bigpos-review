@@ -10,21 +10,21 @@
     const ua = navigator.userAgent.toLowerCase();
 
     const mapUrl = `https://www.google.com/maps/search/?api=1&query=${queryName}&query_place_id=${placeId}`;
-    const reviewUrl = `https://search.google.com/local/writereview?placeid=${placeId}`;
+    const nextPage = `review.html`;
 
     function redirect() {
+      // 在 5 秒后打开 review.html 页面，去处理跳转评论
+      setTimeout(() => {
+        window.location.href = nextPage;
+      }, 5000);
+
+      // 立即跳转去地图
       if (ua.includes("android")) {
         const intentUrl = `intent://maps.google.com/maps?api=1&query=${queryName}&query_place_id=${placeId}#Intent;scheme=https;package=com.google.android.apps.maps;S.browser_fallback_url=${encodeURIComponent(mapUrl)};end;`;
         window.location.href = intentUrl;
       } else {
-        // 打开网页地图
         window.location.href = mapUrl;
       }
-
-      // 几秒后自动跳转去评论页面
-      setTimeout(() => {
-        window.location.href = reviewUrl;
-      }, 5000); // 可调整跳转秒数
     }
 
     window.onload = redirect;
